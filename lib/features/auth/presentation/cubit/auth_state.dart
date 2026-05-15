@@ -12,6 +12,7 @@ class AuthState with _$AuthState {
   const factory AuthState.unauthenticated(String? message) = _Unauthenticated;
   const factory AuthState.phoneCodeSent(String verificationId) = _PhoneCodeSent;
   const factory AuthState.error(String message) = _Error;
+  const factory AuthState.blocked(String message) = _Blocked;
 }
 
 

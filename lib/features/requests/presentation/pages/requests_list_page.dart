@@ -8,7 +8,6 @@ import '../../../../shared/widgets/error_view.dart';
 import '../../../../shared/widgets/shimmer_loading.dart';
 import '../../domain/entities/service_request.dart';
 import '../cubit/requests_cubit.dart';
-import '../widgets/create_request_type_dialog.dart';
 import '../widgets/request_card.dart';
 
 class RequestsListPage extends StatefulWidget {
@@ -129,12 +128,8 @@ class _RequestsListView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         key: const ValueKey('client_requests_add_fab'),
         onPressed: () async {
-          final shouldReload = await showDialog<bool>(
-            context: context,
-            builder: (_) => const CreateRequestTypeDialog(),
-          );
-
-          if (shouldReload == true && context.mounted) {
+          final result = await context.push('/requests/create');
+          if (result == true && context.mounted) {
             context.read<RequestsCubit>().loadRequests();
           }
         },

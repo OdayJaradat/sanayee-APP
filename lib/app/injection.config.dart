@@ -179,8 +179,6 @@ import 'package:sanayee_app/features/requests/domain/usecases/close_request.dart
     as _i1050;
 import 'package:sanayee_app/features/requests/domain/usecases/confirm_job_completion.dart'
     as _i987;
-import 'package:sanayee_app/features/requests/domain/usecases/create_quick_request.dart'
-    as _i506;
 import 'package:sanayee_app/features/requests/domain/usecases/create_request.dart'
     as _i85;
 import 'package:sanayee_app/features/requests/domain/usecases/delete_request.dart'
@@ -201,8 +199,6 @@ import 'package:sanayee_app/features/requests/domain/usecases/save_filters.dart'
     as _i554;
 import 'package:sanayee_app/features/requests/presentation/cubit/create_request_cubit.dart'
     as _i139;
-import 'package:sanayee_app/features/requests/presentation/cubit/quick_request_cubit.dart'
-    as _i984;
 import 'package:sanayee_app/features/requests/presentation/cubit/request_details_cubit.dart'
     as _i852;
 import 'package:sanayee_app/features/requests/presentation/cubit/requests_cubit.dart'
@@ -499,12 +495,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1050.CloseRequest>(),
       ),
     );
-    gh.factory<_i506.CreateQuickRequest>(
-      () => _i506.CreateQuickRequest(
-        gh<_i116.RequestsRepository>(),
-        gh<_i635.ChatRepository>(),
-      ),
-    );
     gh.factory<_i381.CloseHiringPost>(
       () => _i381.CloseHiringPost(gh<_i319.HiringPostsRepository>()),
     );
@@ -549,14 +539,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1050.GetRatingsForProfessionalUseCase>(
       () => _i1050.GetRatingsForProfessionalUseCase(
         gh<_i160.RatingsRepository>(),
-      ),
-    );
-    gh.factory<_i984.QuickRequestCubit>(
-      () => _i984.QuickRequestCubit(
-        gh<_i257.GetCurrentPosition>(),
-        gh<_i730.FindNearestProfessional>(),
-        gh<_i506.CreateQuickRequest>(),
-        gh<_i285.GetCurrentUser>(),
       ),
     );
     gh.factory<_i583.GetProfessionalById>(

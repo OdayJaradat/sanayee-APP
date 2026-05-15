@@ -8,6 +8,7 @@ import '../../../../app/injection.dart';
 import '../../../../core/config/app_spacing.dart';
 import '../../../../core/config/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/widgets/report_dialog.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/error_view.dart';
@@ -60,6 +61,27 @@ class _RequestDetailsView extends StatefulWidget {
 class _RequestDetailsViewState extends State<_RequestDetailsView> {
   String? _handledRatingRequestId;
   bool _dialogOpen = false;
+  bool _hasReportedRequest = false;
+  bool _checkingReportStatus = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfAlreadyReported();
+  }
+
+  Future<void> _checkIfAlreadyReported() async {
+    final hasReported = await ReportDialog.hasUserReported(
+      targetType: 'request',
+      targetId: widget.requestId,
+    );
+    if (mounted) {
+      setState(() {
+        _hasReportedRequest = hasReported;
+        _checkingReportStatus = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -855,21 +877,48 @@ class _RequestDetailsViewState extends State<_RequestDetailsView> {
             const SizedBox(height: AppSpacing.md),
             SizedBox(
               width: double.infinity,
-              child: AppButton(
-                label: 'تبليغ الادمن',
-                onPressed: () {
-                  // TODO: need to implement admin reporting system
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('سيتم تطوير هذه الميزة فيما بعد'),
-                      backgroundColor: Colors.blue,
+              child: _hasReportedRequest
+                  ? OutlinedButton.icon(
+                      onPressed: null,
+                      icon: const Icon(Icons.check_circle_rounded),
+                      label: const Text('تم الإبلاغ'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.grey,
+                        side: const BorderSide(color: Colors.grey),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: AppSpacing.md,
+                        ),
+                      ),
+                    )
+                  : AppButton(
+                      label: 'تبليغ الادمن',
+                      onPressed: _checkingReportStatus
+                          ? null
+                          : () async {
+                              final submitted = await ReportDialog.show(
+                                context,
+                                targetType: 'request',
+                                targetId: request.id,
+                                targetLabel: 'الطلب',
+                              );
+                              if (submitted && mounted) {
+                                setState(() {
+                                  _hasReportedRequest = true;
+                                });
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('تم إرسال البلاغ بنجاح'),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                      icon: Icons.flag_rounded,
+                      variant: AppButtonVariant.outlined,
+                      fullWidth: true,
                     ),
-                  );
-                },
-                icon: Icons.flag_rounded,
-                variant: AppButtonVariant.outlined,
-                fullWidth: true,
-              ),
             ),
           ],
         ),

@@ -8,6 +8,9 @@ import '../../domain/repositories/user_repository.dart';
 import '../datasources/supabase_auth_datasource.dart';
 import '../models/user_model.dart';
 
+// Re-export for access in router
+export '../datasources/supabase_auth_datasource.dart' show BlockedUserException;
+
 
 @LazySingleton(as: UserRepository, env: [Environment.prod])
 class UserRepositorySupabase implements UserRepository {
@@ -26,6 +29,8 @@ class UserRepositorySupabase implements UserRepository {
         password: password,
       );
       return Right(userModel.toDomain());
+    } on BlockedUserException catch (e) {
+      return Left(BlockedUserFailure(e.message));
     } on supabase.AuthException catch (e) {
       return Left(AuthFailure(_getAuthErrorMessage(e)));
     } catch (e) {
@@ -110,6 +115,8 @@ class UserRepositorySupabase implements UserRepository {
     try {
       final userModel = await _dataSource.getCurrentUser();
       return Right(userModel?.toDomain());
+    } on BlockedUserException catch (e) {
+      return Left(BlockedUserFailure(e.message));
     } catch (e) {
       return Left(AuthFailure('Failed to get current user: ${e.toString()}'));
     }

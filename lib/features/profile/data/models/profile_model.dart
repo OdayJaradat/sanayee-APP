@@ -157,7 +157,7 @@ class ProfileModel with _$ProfileModel {
       bio: bio,
       avatarUrl:
           avatarUrl ??
-          'https://ftulvlnmwhpvwvkvkpkm.supabase.co/storage/v1/object/public/media/person_icon.png',
+          'hENTER YOUR SUPABASE URL HERE/storage/v1/object/public/media/person_icon.png',
       yearsExperience: yearsExperience,
       certifications: certifications,
       specialization: specialization,

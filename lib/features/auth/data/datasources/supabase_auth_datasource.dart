@@ -3,10 +3,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../profile/domain/entities/user_role.dart';
 import '../models/user_model.dart';
 
-
 const String kDefaultAvatarUrl =
-    'https://ftulvlnmwhpvwvkvkpkm.supabase.co/storage/v1/object/public/media/person_icon.png';
+    'hENTER YOUR SUPABASE URL HERE/storage/v1/object/public/media/person_icon.png';
 
+/// Exception thrown when a blocked user tries to access the app
+class BlockedUserException implements Exception {
+  final String message;
+  BlockedUserException([this.message = 'حسابك محظور. يرجى التواصل مع الدعم.']);
+
+  @override
+  String toString() => message;
+}
 
 @lazySingleton
 class SupabaseAuthDataSource {
@@ -14,8 +21,6 @@ class SupabaseAuthDataSource {
 
   SupabaseAuthDataSource(this._supabase);
 
-  
-  
   Future<UserModel> signUpWithEmailAndPassword({
     required String email,
     required String password,
@@ -23,7 +28,7 @@ class SupabaseAuthDataSource {
     String? name,
     String? fullName,
     String? phone,
-    String? city, 
+    String? city,
     String? governorate,
     String? locality,
     DateTime? dateOfBirth,
@@ -135,7 +140,6 @@ class SupabaseAuthDataSource {
     }
   }
 
-  
   Future<UserModel> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -158,11 +162,21 @@ class SupabaseAuthDataSource {
         metadata: authResponse.user!.userMetadata,
       );
 
+      // Check if user is blocked
+      final isBlocked = profile['is_blocked'] as bool? ?? false;
+      if (isBlocked) {
+        // Sign out immediately if blocked
+        await _supabase.auth.signOut();
+        throw BlockedUserException();
+      }
+
       return UserModel(
         id: userId,
         email: authResponse.user!.email ?? email,
         role: profile['role'] as String,
       );
+    } on BlockedUserException {
+      rethrow;
     } catch (e) {
       if (e.toString().contains('Invalid login credentials')) {
         throw Exception('البريد الإلكتروني أو كلمة المرور غير صحيحة');
@@ -171,7 +185,6 @@ class SupabaseAuthDataSource {
     }
   }
 
-  
   Future<Map<String, dynamic>> _getOrCreateProfile({
     required String userId,
     required String email,
@@ -207,35 +220,42 @@ class SupabaseAuthDataSource {
     return profile;
   }
 
-  
   Future<void> signOut() async {
     await _supabase.auth.signOut();
   }
 
-  
   String getCurrentUserEmail() {
     return _supabase.auth.currentUser?.email ?? '';
   }
 
-  
   Future<UserModel?> getCurrentUser() async {
     final user = _supabase.auth.currentUser;
     if (user == null) return null;
 
     try {
       final profile = await _getProfile(user.id);
+
+      // Check if user is blocked
+      final isBlocked = profile['is_blocked'] as bool? ?? false;
+      if (isBlocked) {
+        // Sign out immediately if blocked
+        await _supabase.auth.signOut();
+        throw BlockedUserException();
+      }
+
       return UserModel(
         id: user.id,
         email: user.email,
         phoneNumber: user.phone,
         role: profile['role'] as String,
       );
+    } on BlockedUserException {
+      rethrow;
     } catch (e) {
       return null;
     }
   }
 
-  
   Future<Map<String, dynamic>> _getProfile(String userId) async {
     final response = await _supabase
         .from('profiles')
@@ -246,7 +266,6 @@ class SupabaseAuthDataSource {
     return response;
   }
 
-  
   Stream<UserModel?> get authStateChanges {
     return _supabase.auth.onAuthStateChange.asyncMap((data) async {
       final user = data.session?.user;
@@ -266,7 +285,6 @@ class SupabaseAuthDataSource {
     });
   }
 
-  
   Future<void> updateFcmToken(String token) async {
     final user = _supabase.auth.currentUser;
     if (user == null) return;
@@ -283,7 +301,6 @@ class SupabaseAuthDataSource {
     }
   }
 
-  
   Future<void> removeFcmToken(String token) async {
     final user = _supabase.auth.currentUser;
     if (user == null) return;
@@ -298,7 +315,6 @@ class SupabaseAuthDataSource {
         .eq('id', user.id);
   }
 
-  
   Future<void> changePassword({
     required String currentPassword,
     required String newPassword,

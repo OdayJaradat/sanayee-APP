@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
+import '../../../../core/error/failures.dart';
 import '../../../profile/domain/entities/user_role.dart';
 import '../../domain/usecases/get_current_user.dart';
 import '../../domain/usecases/sign_in_with_email.dart';
@@ -30,22 +31,35 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> checkAuthStatus() async {
     emit(const AuthState.loading());
     final result = await _getCurrentUser();
-    result.fold((failure) => emit(AuthState.unauthenticated(failure.message)), (
-      user,
-    ) {
-      if (user != null) {
-        emit(AuthState.authenticated(user));
-      } else {
-        emit(const AuthState.unauthenticated(null));
-      }
-    });
+    result.fold(
+      (failure) {
+        if (failure is BlockedUserFailure) {
+          emit(AuthState.blocked(failure.message));
+        } else {
+          emit(AuthState.unauthenticated(failure.message));
+        }
+      },
+      (user) {
+        if (user != null) {
+          emit(AuthState.authenticated(user));
+        } else {
+          emit(const AuthState.unauthenticated(null));
+        }
+      },
+    );
   }
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     emit(const AuthState.loading());
     final result = await _signInWithEmail(email: email, password: password);
     result.fold(
-      (failure) => emit(AuthState.error(failure.message)),
+      (failure) {
+        if (failure is BlockedUserFailure) {
+          emit(AuthState.blocked(failure.message));
+        } else {
+          emit(AuthState.error(failure.message));
+        }
+      },
       (user) => emit(AuthState.authenticated(user)),
     );
   }

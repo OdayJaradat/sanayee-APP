@@ -33,3 +33,8 @@ class NotFoundFailure extends Failure {
 class AuthFailure extends Failure {
   const AuthFailure(super.message);
 }
+
+
+class BlockedUserFailure extends Failure {
+  const BlockedUserFailure([super.message = 'حسابك محظور. يرجى التواصل مع الدعم.']);
+}

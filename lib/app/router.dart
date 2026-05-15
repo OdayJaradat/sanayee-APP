@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'env.dart';
 import 'injection.dart';
+import '../core/error/failures.dart';
 import '../features/auth/domain/repositories/user_repository.dart';
 import '../features/auth/presentation/cubit/auth_cubit.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
+import '../features/auth/presentation/pages/blocked_account_page.dart';
 import '../features/requests/presentation/pages/requests_list_page.dart';
 import '../features/requests/presentation/pages/create_request_page.dart';
 import '../features/requests/presentation/pages/request_details_page.dart';
-import '../features/requests/presentation/pages/quick_request_page.dart';
 import '../features/requests/presentation/cubit/requests_cubit.dart';
 import '../features/chat/presentation/pages/chat_list_page.dart';
 import '../features/chat/presentation/pages/chat_room_page.dart';
@@ -46,7 +47,7 @@ final router = GoRouter(
 
     final useAuth = Env.useAuth;
 
-    final publicRoutes = ['/login', '/register'];
+    final publicRoutes = ['/login', '/register', '/blocked'];
     final isPublicRoute = publicRoutes.any(
       (route) => location.startsWith(route),
     );
@@ -54,6 +55,19 @@ final router = GoRouter(
     if (useAuth) {
       final userRepository = sl<UserRepository>();
       final result = await userRepository.getCurrentUser();
+      
+      // Check if user is blocked
+      final isBlocked = result.fold(
+        (failure) => failure is BlockedUserFailure,
+        (user) => false,
+      );
+      
+      if (isBlocked) {
+        // Already on blocked page? Stay there
+        if (location == '/blocked') return null;
+        return '/blocked';
+      }
+      
       final isAuthenticated = result.fold((l) => false, (user) => user != null);
 
       if (!isAuthenticated && !isPublicRoute) {
@@ -61,6 +75,9 @@ final router = GoRouter(
       }
 
       if (isAuthenticated && isPublicRoute) {
+        // Don't redirect away from blocked page if user somehow got there
+        if (location == '/blocked') return '/login';
+        
         final roleResult = await userRepository.getCurrentUserRole();
         final role = roleResult.fold((l) => null, (r) => r);
         return role?.isClient == true ? '/client/requests' : '/pro/jobs';
@@ -97,6 +114,11 @@ final router = GoRouter(
         create: (_) => sl<AuthCubit>(),
         child: const RegisterPage(),
       ),
+    ),
+    GoRoute(
+      path: '/blocked',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => const BlockedAccountPage(),
     ),
     ShellRoute(
       navigatorKey: _clientShellNavigatorKey,
@@ -180,11 +202,6 @@ final router = GoRouter(
       path: '/account-settings',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => const AccountSettingsPage(),
-    ),
-    GoRoute(
-      path: '/quick-request',
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => const QuickRequestPage(),
     ),
     GoRoute(
       path: '/requests/create',

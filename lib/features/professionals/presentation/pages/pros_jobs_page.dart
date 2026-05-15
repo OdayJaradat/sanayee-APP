@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../core/config/app_spacing.dart';
 import '../../../../core/config/app_colors.dart';
 import '../../../../core/constants/specializations.dart';
+import '../../../../core/widgets/report_dialog.dart';
 import '../../../../shared/widgets/empty_state.dart';
 import '../../../../shared/widgets/error_view.dart';
 import '../../../../shared/widgets/shimmer_loading.dart';
@@ -1307,15 +1308,54 @@ class _ModernStatusBadge extends StatelessWidget {
   }
 }
 
-class _ActiveJobCard extends StatelessWidget {
+class _ActiveJobCard extends StatefulWidget {
   final ServiceRequest request;
   final VoidCallback? onMarkReady;
 
   const _ActiveJobCard({required this.request, this.onMarkReady});
 
   @override
+  State<_ActiveJobCard> createState() => _ActiveJobCardState();
+}
+
+class _ActiveJobCardState extends State<_ActiveJobCard> {
+  bool _hasReported = false;
+  bool _checkingReportStatus = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfAlreadyReported();
+  }
+
+  Future<void> _checkIfAlreadyReported() async {
+    // Only check if the request has a rejection reason (report button is shown)
+    if (widget.request.rejectionReason != null &&
+        widget.request.rejectionReason!.isNotEmpty) {
+      final hasReported = await ReportDialog.hasUserReported(
+        targetType: 'request',
+        targetId: widget.request.id,
+      );
+      if (mounted) {
+        setState(() {
+          _hasReported = hasReported;
+          _checkingReportStatus = false;
+        });
+      }
+    } else {
+      if (mounted) {
+        setState(() {
+          _checkingReportStatus = false;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final request = widget.request;
+    final onMarkReady = widget.onMarkReady;
 
     final isPendingReview = request.status == 'pending_review';
 
@@ -1562,29 +1602,61 @@ class _ActiveJobCard extends StatelessWidget {
                     const SizedBox(height: AppSpacing.sm),
                     SizedBox(
                       width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          // TODO: need to implement admin reporting system
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('سيتم تطوير هذه الميزة فيما بعد'),
-                              backgroundColor: Colors.blue,
+                      child: _hasReported
+                          ? OutlinedButton.icon(
+                              onPressed: null,
+                              icon: const Icon(Icons.check_circle_rounded),
+                              label: const Text('تم الإبلاغ'),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.grey,
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                  width: 2,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: AppSpacing.md,
+                                ),
+                              ),
+                            )
+                          : OutlinedButton.icon(
+                              onPressed: _checkingReportStatus
+                                  ? null
+                                  : () async {
+                                      final submitted = await ReportDialog.show(
+                                        context,
+                                        targetType: 'request',
+                                        targetId: request.id,
+                                        targetLabel: 'الطلب',
+                                      );
+                                      if (submitted && mounted) {
+                                        setState(() {
+                                          _hasReported = true;
+                                        });
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content:
+                                                  Text('تم إرسال البلاغ بنجاح'),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                              icon: const Icon(Icons.flag_rounded),
+                              label: const Text('تبليغ الادمن'),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.red.shade700,
+                                side: BorderSide(
+                                  color: Colors.red.shade700,
+                                  width: 2,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: AppSpacing.md,
+                                ),
+                              ),
                             ),
-                          );
-                        },
-                        icon: const Icon(Icons.flag_rounded),
-                        label: const Text('تبليغ الادمن'),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.red.shade700,
-                          side: BorderSide(
-                            color: Colors.red.shade700,
-                            width: 2,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: AppSpacing.md,
-                          ),
-                        ),
-                      ),
                     ),
                   ] else
                     SizedBox(
@@ -1651,11 +1723,11 @@ class _ActiveJobCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => _JobCompletionDialog(
-        requestId: request.id,
-        requestTitle: request.title,
+        requestId: widget.request.id,
+        requestTitle: widget.request.title,
         onConfirm: () {
-          if (onMarkReady != null) {
-            onMarkReady!();
+          if (widget.onMarkReady != null) {
+            widget.onMarkReady!();
           }
         },
       ),

@@ -25,6 +25,7 @@ mixin _$AuthState {
     required TResult Function(String? message) unauthenticated,
     required TResult Function(String verificationId) phoneCodeSent,
     required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -34,6 +35,7 @@ mixin _$AuthState {
     TResult? Function(String? message)? unauthenticated,
     TResult? Function(String verificationId)? phoneCodeSent,
     TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -43,6 +45,7 @@ mixin _$AuthState {
     TResult Function(String? message)? unauthenticated,
     TResult Function(String verificationId)? phoneCodeSent,
     TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -53,6 +56,7 @@ mixin _$AuthState {
     required TResult Function(_Unauthenticated value) unauthenticated,
     required TResult Function(_PhoneCodeSent value) phoneCodeSent,
     required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -62,6 +66,7 @@ mixin _$AuthState {
     TResult? Function(_Unauthenticated value)? unauthenticated,
     TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -71,6 +76,7 @@ mixin _$AuthState {
     TResult Function(_Unauthenticated value)? unauthenticated,
     TResult Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -144,6 +150,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(String? message) unauthenticated,
     required TResult Function(String verificationId) phoneCodeSent,
     required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
   }) {
     return initial();
   }
@@ -157,6 +164,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(String? message)? unauthenticated,
     TResult? Function(String verificationId)? phoneCodeSent,
     TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
   }) {
     return initial?.call();
   }
@@ -170,6 +178,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(String? message)? unauthenticated,
     TResult Function(String verificationId)? phoneCodeSent,
     TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -187,6 +196,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Unauthenticated value) unauthenticated,
     required TResult Function(_PhoneCodeSent value) phoneCodeSent,
     required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
   }) {
     return initial(this);
   }
@@ -200,6 +210,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Unauthenticated value)? unauthenticated,
     TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
   }) {
     return initial?.call(this);
   }
@@ -213,6 +224,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Unauthenticated value)? unauthenticated,
     TResult Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -275,6 +287,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(String? message) unauthenticated,
     required TResult Function(String verificationId) phoneCodeSent,
     required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
   }) {
     return loading();
   }
@@ -288,6 +301,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(String? message)? unauthenticated,
     TResult? Function(String verificationId)? phoneCodeSent,
     TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
   }) {
     return loading?.call();
   }
@@ -301,6 +315,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(String? message)? unauthenticated,
     TResult Function(String verificationId)? phoneCodeSent,
     TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -318,6 +333,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Unauthenticated value) unauthenticated,
     required TResult Function(_PhoneCodeSent value) phoneCodeSent,
     required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
   }) {
     return loading(this);
   }
@@ -331,6 +347,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Unauthenticated value)? unauthenticated,
     TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
   }) {
     return loading?.call(this);
   }
@@ -344,6 +361,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Unauthenticated value)? unauthenticated,
     TResult Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -433,6 +451,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     required TResult Function(String? message) unauthenticated,
     required TResult Function(String verificationId) phoneCodeSent,
     required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
   }) {
     return authenticated(user);
   }
@@ -446,6 +465,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult? Function(String? message)? unauthenticated,
     TResult? Function(String verificationId)? phoneCodeSent,
     TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
   }) {
     return authenticated?.call(user);
   }
@@ -459,6 +479,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult Function(String? message)? unauthenticated,
     TResult Function(String verificationId)? phoneCodeSent,
     TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
@@ -476,6 +497,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     required TResult Function(_Unauthenticated value) unauthenticated,
     required TResult Function(_PhoneCodeSent value) phoneCodeSent,
     required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
   }) {
     return authenticated(this);
   }
@@ -489,6 +511,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult? Function(_Unauthenticated value)? unauthenticated,
     TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
   }) {
     return authenticated?.call(this);
   }
@@ -502,6 +525,7 @@ class _$AuthenticatedImpl implements _Authenticated {
     TResult Function(_Unauthenticated value)? unauthenticated,
     TResult Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
@@ -602,6 +626,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     required TResult Function(String? message) unauthenticated,
     required TResult Function(String verificationId) phoneCodeSent,
     required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
   }) {
     return unauthenticated(message);
   }
@@ -615,6 +640,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult? Function(String? message)? unauthenticated,
     TResult? Function(String verificationId)? phoneCodeSent,
     TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
   }) {
     return unauthenticated?.call(message);
   }
@@ -628,6 +654,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult Function(String? message)? unauthenticated,
     TResult Function(String verificationId)? phoneCodeSent,
     TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -645,6 +672,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     required TResult Function(_Unauthenticated value) unauthenticated,
     required TResult Function(_PhoneCodeSent value) phoneCodeSent,
     required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
   }) {
     return unauthenticated(this);
   }
@@ -658,6 +686,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult? Function(_Unauthenticated value)? unauthenticated,
     TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
   }) {
     return unauthenticated?.call(this);
   }
@@ -671,6 +700,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult Function(_Unauthenticated value)? unauthenticated,
     TResult Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -769,6 +799,7 @@ class _$PhoneCodeSentImpl implements _PhoneCodeSent {
     required TResult Function(String? message) unauthenticated,
     required TResult Function(String verificationId) phoneCodeSent,
     required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
   }) {
     return phoneCodeSent(verificationId);
   }
@@ -782,6 +813,7 @@ class _$PhoneCodeSentImpl implements _PhoneCodeSent {
     TResult? Function(String? message)? unauthenticated,
     TResult? Function(String verificationId)? phoneCodeSent,
     TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
   }) {
     return phoneCodeSent?.call(verificationId);
   }
@@ -795,6 +827,7 @@ class _$PhoneCodeSentImpl implements _PhoneCodeSent {
     TResult Function(String? message)? unauthenticated,
     TResult Function(String verificationId)? phoneCodeSent,
     TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
     required TResult orElse(),
   }) {
     if (phoneCodeSent != null) {
@@ -812,6 +845,7 @@ class _$PhoneCodeSentImpl implements _PhoneCodeSent {
     required TResult Function(_Unauthenticated value) unauthenticated,
     required TResult Function(_PhoneCodeSent value) phoneCodeSent,
     required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
   }) {
     return phoneCodeSent(this);
   }
@@ -825,6 +859,7 @@ class _$PhoneCodeSentImpl implements _PhoneCodeSent {
     TResult? Function(_Unauthenticated value)? unauthenticated,
     TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
   }) {
     return phoneCodeSent?.call(this);
   }
@@ -838,6 +873,7 @@ class _$PhoneCodeSentImpl implements _PhoneCodeSent {
     TResult Function(_Unauthenticated value)? unauthenticated,
     TResult Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
     required TResult orElse(),
   }) {
     if (phoneCodeSent != null) {
@@ -936,6 +972,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(String? message) unauthenticated,
     required TResult Function(String verificationId) phoneCodeSent,
     required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
   }) {
     return error(message);
   }
@@ -949,6 +986,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(String? message)? unauthenticated,
     TResult? Function(String verificationId)? phoneCodeSent,
     TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
   }) {
     return error?.call(message);
   }
@@ -962,6 +1000,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(String? message)? unauthenticated,
     TResult Function(String verificationId)? phoneCodeSent,
     TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -979,6 +1018,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Unauthenticated value) unauthenticated,
     required TResult Function(_PhoneCodeSent value) phoneCodeSent,
     required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
   }) {
     return error(this);
   }
@@ -992,6 +1032,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Unauthenticated value)? unauthenticated,
     TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
   }) {
     return error?.call(this);
   }
@@ -1005,6 +1046,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Unauthenticated value)? unauthenticated,
     TResult Function(_PhoneCodeSent value)? phoneCodeSent,
     TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1023,5 +1065,177 @@ abstract class _Error implements AuthState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$BlockedImplCopyWith<$Res> {
+  factory _$$BlockedImplCopyWith(
+    _$BlockedImpl value,
+    $Res Function(_$BlockedImpl) then,
+  ) = __$$BlockedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$BlockedImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$BlockedImpl>
+    implements _$$BlockedImplCopyWith<$Res> {
+  __$$BlockedImplCopyWithImpl(
+    _$BlockedImpl _value,
+    $Res Function(_$BlockedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? message = null}) {
+    return _then(
+      _$BlockedImpl(
+        null == message
+            ? _value.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$BlockedImpl implements _Blocked {
+  const _$BlockedImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'AuthState.blocked(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BlockedImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BlockedImplCopyWith<_$BlockedImpl> get copyWith =>
+      __$$BlockedImplCopyWithImpl<_$BlockedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(User user) authenticated,
+    required TResult Function(String? message) unauthenticated,
+    required TResult Function(String verificationId) phoneCodeSent,
+    required TResult Function(String message) error,
+    required TResult Function(String message) blocked,
+  }) {
+    return blocked(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(User user)? authenticated,
+    TResult? Function(String? message)? unauthenticated,
+    TResult? Function(String verificationId)? phoneCodeSent,
+    TResult? Function(String message)? error,
+    TResult? Function(String message)? blocked,
+  }) {
+    return blocked?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(User user)? authenticated,
+    TResult Function(String? message)? unauthenticated,
+    TResult Function(String verificationId)? phoneCodeSent,
+    TResult Function(String message)? error,
+    TResult Function(String message)? blocked,
+    required TResult orElse(),
+  }) {
+    if (blocked != null) {
+      return blocked(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Authenticated value) authenticated,
+    required TResult Function(_Unauthenticated value) unauthenticated,
+    required TResult Function(_PhoneCodeSent value) phoneCodeSent,
+    required TResult Function(_Error value) error,
+    required TResult Function(_Blocked value) blocked,
+  }) {
+    return blocked(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Authenticated value)? authenticated,
+    TResult? Function(_Unauthenticated value)? unauthenticated,
+    TResult? Function(_PhoneCodeSent value)? phoneCodeSent,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_Blocked value)? blocked,
+  }) {
+    return blocked?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Authenticated value)? authenticated,
+    TResult Function(_Unauthenticated value)? unauthenticated,
+    TResult Function(_PhoneCodeSent value)? phoneCodeSent,
+    TResult Function(_Error value)? error,
+    TResult Function(_Blocked value)? blocked,
+    required TResult orElse(),
+  }) {
+    if (blocked != null) {
+      return blocked(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Blocked implements AuthState {
+  const factory _Blocked(final String message) = _$BlockedImpl;
+
+  String get message;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BlockedImplCopyWith<_$BlockedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -19,6 +19,7 @@ class RatingCubit extends Cubit<RatingState> {
     required String professionalId,
     required String requestId,
     required String clientId,
+    
   }) async {
     final result = await _getRatingsForProfessionalUseCase(
       professionalId.trim(),

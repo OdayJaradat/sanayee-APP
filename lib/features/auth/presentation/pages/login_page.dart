@@ -43,6 +43,10 @@ class _LoginPageState extends State<LoginPage> {
                   context.go('/pro/jobs');
                 }
               },
+              blocked: (message) {
+                // Redirect to blocked account page
+                context.go('/blocked');
+              },
               error: (message) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(message), backgroundColor: Colors.red),
